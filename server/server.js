@@ -15,14 +15,12 @@ db.once('open', function () {
 let MatchModel = require('./models/match');
 let DeliveryModel = require('./models/delivery');
 
-// project directory
 app.use((req,res,next)=>{
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, X-Custom-Header, Accept");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, XMODIFY");
     next();
  });
-// app.use(express.static(__dirname + '/public'));
 
 function findUniqueYears(req, res) {
 

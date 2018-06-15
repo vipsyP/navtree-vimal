@@ -13,10 +13,9 @@ class Year extends Component {
             isOpens: []
         }
         this.players = [];
-        console.log("The year constructor(): \nprops: "+JSON.stringify(props)+", \nstate: "+JSON.stringify(this.state));
     }
 
-
+    // Recieve new props
     componentWillReceiveProps(nextProps) {
         this.setState({
             teams: nextProps.teams, 
@@ -33,10 +32,9 @@ class Year extends Component {
             return response.json()
         })
         .then((myJson)=> {
-            console.log(myJson);
             scope.players = myJson;
-            // console.log("The players are: "+scope.players);
 
+            //set new state -- isOpens of the team clicked
             scope.setState(
                 {isOpens: scope.state.teams.map((team, index, array) => {
                     if(scope.state.isOpens[index]==false && team == expandedTeam) {
@@ -51,8 +49,8 @@ class Year extends Component {
     }
 
     render() {
-        console.log("The players are: "+this.players);
 
+        // if the year node is expanded, render teams
         if(this.props.isOpen) {
             const h1Style = {
                 color: 'red'
@@ -62,18 +60,21 @@ class Year extends Component {
                     <h3 style={h1Style} onClick = {this.props.handleYearClick}>{this.props.year}</h3>
                     {
                         this.state.teams.map((team, index, array) => {
-                            if(this.state.isOpens[index]){
+                            // if the team node is expanded, pass players to it
+                            if(this.state.isOpens[index]){ 
                                 return <Team year = {this.props.year} team = {team} isOpen = {this.state.isOpens[index]} handleTeamClick = {this.expandTeamNode.bind(this, team)} players = {this.players}/>
                             }
+                            // else do not pass players
                             else{
                                 return <Team year = {this.props.year} team = {team} isOpen = {this.state.isOpens[index]} handleTeamClick = {this.expandTeamNode.bind(this, team)} players = {[]}/>
                             }
-
                         })
                     }
                 </div>
              );
         }
+
+        //else do not render the teams
         else {
             return (
                 <h3 onClick = {this.props.handleYearClick}>{this.props.year}</h3>

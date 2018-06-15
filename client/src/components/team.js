@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Player from './player';
 class Team extends Component {
 
+    //set initial state
     constructor(props) {
         super(props);
         this.state = {
@@ -11,7 +12,7 @@ class Team extends Component {
         this.stats = []
     }
 
-
+    // Recieve new props
     componentWillReceiveProps(nextProps) {
         console.log("The next props for team; "+JSON.stringify(nextProps) );
         this.setState({
@@ -20,6 +21,7 @@ class Team extends Component {
         });  
     }
 
+    // handle clicks to a player node
     expandPlayer(expandedPlayer) {
         console.log("expandedPlayer: "+ expandedPlayer);
 
@@ -30,8 +32,8 @@ class Team extends Component {
         })
         .then((myJson)=> {
             this.stats = myJson;
-            // console.log("The stats variable: "+this.stats);
 
+            //set new state -- isOpens of the team clicked
             this.setState({
                 isOpens: this.state.players.map((player, index, array)=> {
                     console.log("player: "+player+", expandedPlayer: "+expandedPlayer);
@@ -47,8 +49,7 @@ class Team extends Component {
     }
 
     render() {
-
-        console.log("The stats variable: "+this.stats);
+        // if the team node is expanded, render players
         if(this.props.isOpen){
             const h5Style = {
                 marginLeft: "100px",
@@ -59,9 +60,11 @@ class Team extends Component {
                     <h5 style = {h5Style} onClick = {this.props.handleTeamClick}>{this.props.team}</h5>
                     {
                         this.state.players.map((player, index, array) => {
+                            // if the player node is expanded, pass player statistics
                             if(this.state.isOpens[index]){
                                 return <Player player = {player} stats = {this.stats} isOpen = {this.state.isOpens[index]} handlePlayerClick = {this.expandPlayer.bind(this, player)} />
                             }
+                            // else, do not pass player statistics                            
                             else{
                                 return <Player player = {player} stats = {[]} isOpen = {this.state.isOpens[index]} handlePlayerClick = {this.expandPlayer.bind(this, player)} />
                             }
@@ -71,6 +74,7 @@ class Team extends Component {
             );
         }
 
+        //else do not render the players
         const h5Style = {
             marginLeft: "100px"
         };
