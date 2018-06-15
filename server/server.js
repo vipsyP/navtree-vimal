@@ -52,7 +52,8 @@ function findUniqueYears(req, res) {
         console.log("Years length: " + years.size);
         for (let year of years) console.log(year);
 
-        res.send('All years: ' + Array.from(years));
+        // res.send('All years: ' + Array.from(years));
+        res.send(Array.from(years));
     });
 }
 
@@ -170,7 +171,8 @@ async function findUniqueBatsmenForAYearAndATeam(req, res, yearParam, teamParam)
             }
         ], function (err, result) {
             console.log(JSON.stringify(result));
-            res.send("The batsmen who played for "+teamParam+" in "+yearParam+" : "+result[0].uniqueBatsmen);
+            //res.send("The batsmen who played for "+teamParam+" in "+yearParam+" : "+result[0].uniqueBatsmen);
+            res.send(result[0].uniqueBatsmen);
             // res.send(result);
         });
 
@@ -244,10 +246,8 @@ function findBatsmanStats(req, res, yearParam, teamParam, playerParam){
                 }
             }
         ], function (err, result) {
-            //console.log(JSON.stringify(result));
-            //res.send(result);
-            res.send(playerParam+" who played for "+teamParam+" made "+result[0].totalBatsmanRuns+" runs"+" in "+yearParam);
-            // res.send(result);
+            //res.send(playerParam+" who played for "+teamParam+" made "+result[0].totalBatsmanRuns+" runs"+" in "+yearParam);
+            res.send([result[0].totalBatsmanRuns]);
         });
 
     });
@@ -294,22 +294,27 @@ app.get("/:year/:team/players", (req, res) => {
 
     findUniqueBatsmenForAYearAndATeam(req, res, req.params.year, req.params.team)
 });
-
-
-// Get specific year
-app.get("/:year", (req, res) => {
-    res.send('specific year: ' + req.params.year);
-});
-// Get specific year/team
-app.get("/:year/:team", (req, res) => {
-    res.send('specific year: ' + req.params.year + ', specific team: ' + req.params.team);
-});
-// Get specific year/team/player
 app.get("/:year/:team/:player", (req, res) => {
     console.log("year/team/player dir!");
 
     findBatsmanStats(req, res, req.params.year, req.params.team, req.params.player)
 
 });
+
+// // Get specific year
+// app.get("/:year", (req, res) => {
+//     res.send('specific year: ' + req.params.year);
+// });
+// // Get specific year/team
+// app.get("/:year/:team", (req, res) => {
+//     res.send('specific year: ' + req.params.year + ', specific team: ' + req.params.team);
+// });
+// // Get specific year/team/player
+// app.get("/:year/:team/:player", (req, res) => {
+//     console.log("year/team/player dir!");
+
+//     findBatsmanStats(req, res, req.params.year, req.params.team, req.params.player)
+
+// });
 
 app.listen(3000, () => console.log('listening on port 3000!'));

@@ -9,8 +9,15 @@ const Player = (props) => {
             marginLeft: '300px',
             color: 'red'
         };  
+        const h1Style = {
+            marginLeft: '500px',
+            color: 'green'
+        };  
         return (
-            <h6 style = {h6Style} onClick = {props.handlePlayerClick}>{props.player}</h6>
+            <div>
+                <h6 style = {h6Style} onClick = {props.handlePlayerClick}>{props.player}</h6>
+                <h1 style = {h1Style}>Batting runs: {props.stats[0]}</h1>
+            </div>
         );
     }
     else {
